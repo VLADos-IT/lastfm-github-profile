@@ -1,0 +1,16 @@
+.wave {
+	animation: wave 2s linear infinite;
+	fill: none;
+	stroke-width: 2;
+	stroke-linecap: round;
+}
+
+@keyframes wave {
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-20px);
+	}
+}
