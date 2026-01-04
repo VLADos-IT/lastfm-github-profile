@@ -36,7 +36,7 @@ The API is available at `/api`. It returns an SVG image suitable for embedding i
 
 ## Caching
 
-Responses are cached with `Cache-Control: public, max-age=60, s-maxage=60, stale-while-revalidate=30`.
+Responses are cached with `Cache-Control: public, max-age=240, s-maxage=240, stale-while-revalidate=120`.
 
 ## Response Headers
 

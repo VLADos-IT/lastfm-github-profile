@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
 
 	// Common headers
 	res.setHeader('Content-Type', 'image/svg+xml');
-	res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=60, stale-while-revalidate=30');
+	res.setHeader('Cache-Control', 'public, max-age=240, s-maxage=240, stale-while-revalidate=120');
 	// Set filename
 	res.setHeader('Content-Disposition', 'inline; filename="lastfm-profile.svg"');
 
