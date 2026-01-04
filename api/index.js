@@ -1,6 +1,6 @@
 const { fetchLastFmData } = require('../lib/fetcher');
 const { generateSvg } = require('../lib/svg');
-const { fetchImageAsBase64 } = require('../lib/utils');
+const { fetchImageAsBase64, isValidUsername } = require('../lib/utils');
 const errorCard = require('../lib/templates/error');
 
 const DEFAULT_WIDTH = 400;
@@ -36,6 +36,10 @@ module.exports = async (req, res) => {
 
 	if (!user) {
 		return sendError('Missing user parameter', 400);
+	}
+
+	if (!isValidUsername(user)) {
+		return sendError('Invalid username', 400);
 	}
 
 	try {
