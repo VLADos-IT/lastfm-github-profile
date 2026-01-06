@@ -14,12 +14,13 @@ Copy the following code into your `README.md` and replace `YOUR_USERNAME`:
 
 For detailed API documentation, please refer to [API.md](assets/API.md).
 
-| Parameter | Description                                            | Default  |
-| :-------- | :----------------------------------------------------- | :------- |
-| `user`    | Your Last.fm username (required)                       | -        |
-| `bg`      | Background color(e.g. ffffff), 'none' or `transparent` | `181818` |
-| `width`   | Width of the SVG in pixels                             | `400`    |
-| `mode`    | Display mode: `smart` (default), `obsession`, `top`    | `smart`  |
+| Parameter | Description                                            | Default   |
+| :-------- | :----------------------------------------------------- | :-------- |
+| `user`    | Your Last.fm username (required)                       | -         |
+| `bg`      | Background color(e.g. ffffff), 'none' or `transparent` | `181818`  |
+| `width`   | Width of the SVG in pixels                             | `400`     |
+| `mode`    | Display mode: `smart` (default), `obsession`, `top`    | `smart`   |
+| `theme`   | Visual theme: `default`, `retro`                       | `default` |
 
 ### Modes
 
@@ -58,6 +59,17 @@ If you prefer to host it yourself.
 
 3. **Access:**
     Your API will be available at `http://YOUR_SERVER_IP:3000/api?user=YOUR_USERNAME`.
+
+> [!NOTE]
+> **Creating Custom Themes**
+>
+> You can easily add your own themes
+>
+> 1. **Create a Template**: Add a new `.js` file in `lib/templates/`
+> 2. **Create Styles**: Add a `.css` file in `lib/styles/`
+> 3. **Use**: `&theme=NEW` in the URL
+>
+> `!Exists theme => Default`
 
 ## Features
 

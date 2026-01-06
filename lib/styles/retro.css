@@ -1,0 +1,23 @@
+.header {
+	font: 700 12px 'Courier New', Courier, monospace;
+	text-transform: uppercase;
+	letter-spacing: 0;
+}
+
+.track {
+	font: 700 14px 'Courier New', Courier, monospace;
+}
+
+.artist {
+	font: 400 12px 'Courier New', Courier, monospace;
+}
+
+.error-text {
+	font: 400 12px 'Courier New', Courier, monospace;
+	fill: #000000;
+}
+
+.retro-wave {
+	animation: wave 2s linear infinite;
+	fill: none;
+}
