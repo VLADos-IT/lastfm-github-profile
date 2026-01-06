@@ -7,6 +7,7 @@ const DEFAULT_WIDTH = 400;
 const DEFAULT_BG = '181818';
 const DEFAULT_MODE = 'smart';
 const DEFAULT_RANGE = 'all';
+const DEFAULT_THEME = 'default';
 
 /**
  * Last.fm Obsession Readme API
@@ -18,8 +19,14 @@ module.exports = async (req, res) => {
 		bg = DEFAULT_BG,
 		width = DEFAULT_WIDTH,
 		mode = DEFAULT_MODE,
-		range = DEFAULT_RANGE
+		range = DEFAULT_RANGE,
+		theme = DEFAULT_THEME
 	} = req.query;
+
+	const safeWidth = Math.max(100, Math.min(1000, parseInt(width) || DEFAULT_WIDTH));
+	const safeBg = (bg !== 'transparent' && !/^[0-9a-fA-F]{3,6}$/.test(bg)) ? DEFAULT_BG : bg;
+	const safeMode = ['smart', 'obsession', 'top'].includes(mode) ? mode : DEFAULT_MODE;
+	const safeRange = ['all', '7day', '1month', '3month', '6month', '12month'].includes(range) ? range : DEFAULT_RANGE;
 
 	// Common headers
 	res.setHeader('Content-Type', 'image/svg+xml');
@@ -27,11 +34,9 @@ module.exports = async (req, res) => {
 	// Set filename
 	res.setHeader('Content-Disposition', 'inline; filename="lastfm-profile.svg"');
 
-	const bgFill = bg === 'transparent' ? 'none' : `#${bg}`;
-
 	const sendError = (message, status) => {
 		if (status) res.status(status);
-		res.send(errorCard({ width, height: 120, bgFill, message }));
+		res.send(errorCard({ width: safeWidth, height: 120, bgFill: safeBg, message }));
 	};
 
 	if (!user) {
@@ -43,23 +48,23 @@ module.exports = async (req, res) => {
 	}
 
 	try {
-		const data = await fetchLastFmData(user, mode, range);
+		const data = await fetchLastFmData(user, safeMode, safeRange);
 
 		if (!data) {
-			if (mode === 'obsession') {
+			if (safeMode === 'obsession') {
 				return sendError(`No current obsession for ${user}`);
 			}
 			throw { response: { status: 404 } };
 		}
 
-		if (mode === 'top') {
+		if (safeMode === 'top') {
 			data.type = 'top_track';
 		}
 
 		// Fetch Image
 		const imageBase64 = await fetchImageAsBase64(data.image);
 
-		const svg = generateSvg({ ...data, imageBase64 }, { width, bg, mode });
+		const svg = generateSvg({ ...data, imageBase64 }, { width: safeWidth, bg: safeBg, mode: safeMode, theme });
 		res.send(svg);
 
 	} catch (error) {
