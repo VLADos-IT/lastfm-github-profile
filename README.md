@@ -14,13 +14,14 @@ Copy the following code into your `README.md` and replace `YOUR_USERNAME`:
 
 For detailed API documentation, please refer to [API.md](assets/API.md).
 
-| Parameter | Description                                            | Default   |
-| :-------- | :----------------------------------------------------- | :-------- |
-| `user`    | Your Last.fm username (required)                       | -         |
-| `bg`      | Background color(e.g. ffffff), 'none' or `transparent` | `181818`  |
-| `width`   | Width of the SVG in pixels                             | `400`     |
-| `mode`    | Display mode: `smart` (default), `obsession`, `top`    | `smart`   |
-| `theme`   | Visual theme: `default`, `retro`                       | `default` |
+| Parameter | Description                                                 | Default   |
+| :-------- | :---------------------------------------------------------- | :-------- |
+| `user`    | Your Last.fm username (required)                            | -         |
+| `bg`      | Background color(e.g. ffffff), 'none' or `transparent`      | `181818`  |
+| `width`   | Width of the SVG in pixels                                  | `400`     |
+| `mode`    | Display mode: `smart` (default), `obsession`, `top`         | `smart`   |
+| `range`   | Date range: `all`, `7day`, `1month`, etc (Requires API Key) | `all`     |
+| `theme`   | Visual theme: `default`, `retro`                            | `default` |
 
 ### Modes
 
@@ -57,6 +58,12 @@ If you prefer to host it yourself.
     podman run -d -p 3000:3000 --name lastfm-obsession lastfm-obsession
     ```
 
+    **With API Key (for Ranges):**
+
+    ```bash
+    podman run -d -p 3000:3000 -e LASTFM_API_KEY=your_key --name lastfm-obsession lastfm-obsession
+    ```
+
 3. **Access:**
     Your API will be available at `http://YOUR_SERVER_IP:3000/api?user=YOUR_USERNAME`.
 
@@ -80,6 +87,6 @@ If you prefer to host it yourself.
 
 ## TODO
 
-- [ ] Top track in range (LAST FM API REQUIRED)
+- [x] Top track in range (LAST FM API REQUIRED)
 - [ ] Other designs
 - [ ] Configuration improvements

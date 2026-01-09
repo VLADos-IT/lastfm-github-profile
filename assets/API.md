@@ -13,7 +13,8 @@ The API is available at `/api`. It returns an SVG image suitable for embedding i
 | `user`    | `string` | **Required** | The Last.fm username to fetch data for.                |
 | `bg`      | `string` | `181818`     | Background color(e.g. ffffff), 'none' or `transparent` |
 | `width`   | `number` | `400`        | Width of the generated SVG in pixels.                  |
-| `mode`    | `string` | `smart`      | Display mode. See [Modes](#modes) below.               |
+| `mode`    | `string` | `smart`      | Display mode. `smart`, `obsession`, `top`.             |
+| `range`   | `string` | `all`        | Period for Top Track. `all`, `7day`, `1month` etc.     |
 
 ## Modes
 
@@ -33,6 +34,13 @@ The API is available at `/api`. It returns an SVG image suitable for embedding i
 
 - **Behavior**: Fetches the most recent track (Top Track).
 - **Label**: "LAST.FM TOP TRACK".
+
+## Ranges (Optional)
+
+You can specify a time range for the Top Track using the `range` parameter.
+Supported values: `all` (default), `7day`, `1month`, `3month`, `6month`, `12month`.
+
+> **Note**: Range support other than `all` requires the server to have `LASTFM_API_KEY` configured. Use `all` for public access.
 
 ## Caching
 

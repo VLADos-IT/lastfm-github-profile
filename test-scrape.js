@@ -38,8 +38,9 @@ async function test() {
         console.log('3. Generating SVG...');
         const svg = generateSvg({ ...data, imageBase64 }, { width: 400, bg: '181818', mode: 'smart' });
 
-        if (!svg || !svg.startsWith('<svg')) {
+        if (!svg || !svg.trim().startsWith('<svg')) {
             console.error('❌ SVG generation failed: Output is not a valid SVG string');
+            console.error('Snippet:', svg.substring(0, 50));
             process.exit(1);
         }
 

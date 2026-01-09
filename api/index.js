@@ -24,13 +24,13 @@ module.exports = async (req, res) => {
 	} = req.query;
 
 	const safeWidth = Math.max(100, Math.min(1000, parseInt(width) || DEFAULT_WIDTH));
-	const safeBg = (bg !== 'transparent' && !/^[0-9a-fA-F]{3,6}$/.test(bg)) ? DEFAULT_BG : bg;
+	const safeBg = (bg !== 'transparent' && bg !== 'none' && !/^[0-9a-fA-F]{3,6}$/.test(bg)) ? DEFAULT_BG : bg;
 	const safeMode = ['smart', 'obsession', 'top'].includes(mode) ? mode : DEFAULT_MODE;
 	const safeRange = ['all', '7day', '1month', '3month', '6month', '12month'].includes(range) ? range : DEFAULT_RANGE;
+	const safeTheme = theme || DEFAULT_THEME;
 
 	// Common headers
 	res.setHeader('Content-Type', 'image/svg+xml');
-	res.setHeader('Cache-Control', 'public, max-age=240, s-maxage=240, stale-while-revalidate=120');
 	// Set filename
 	res.setHeader('Content-Disposition', 'inline; filename="lastfm-profile.svg"');
 
@@ -47,6 +47,15 @@ module.exports = async (req, res) => {
 		return sendError('Invalid username', 400);
 	}
 
+	// Whitelist
+	if (safeRange !== 'all') {
+		const whitelist = process.env.WHITELIST_USERS ? process.env.WHITELIST_USERS.split(',').map(u => u.trim().toLowerCase()) : null;
+
+		if (whitelist && !whitelist.includes(user.toLowerCase())) {
+			return sendError('Range feature restricted', 403);
+		}
+	}
+
 	try {
 		const data = await fetchLastFmData(user, safeMode, safeRange);
 
@@ -61,14 +70,23 @@ module.exports = async (req, res) => {
 			data.type = 'top_track';
 		}
 
+		if (safeMode === 'obsession' || (safeMode === 'smart' && !data.isRecent)) {
+			res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=7200');
+		} else {
+			res.setHeader('Cache-Control', 'public, max-age=240, s-maxage=240, stale-while-revalidate=120');
+		}
+
 		// Fetch Image
 		const imageBase64 = await fetchImageAsBase64(data.image);
 
-		const svg = generateSvg({ ...data, imageBase64 }, { width: safeWidth, bg: safeBg, mode: safeMode, theme });
+		const svg = generateSvg({ ...data, imageBase64 }, { width: safeWidth, bg: safeBg, mode: safeMode, theme: safeTheme });
 		res.send(svg);
 
 	} catch (error) {
 		console.error(error);
+		if (error.message === 'LASTFM_API_KEY_MISSING') {
+			return sendError('Range needs LASTFM API Key', 501);
+		}
 		if (error.response && error.response.status === 404) {
 			sendError(`No data for ${user}`);
 		} else {
