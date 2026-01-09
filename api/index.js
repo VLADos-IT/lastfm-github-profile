@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
 	const safeBg = (bg !== 'transparent' && !/^[0-9a-fA-F]{3,6}$/.test(bg)) ? DEFAULT_BG : bg;
 	const safeMode = ['smart', 'obsession', 'top'].includes(mode) ? mode : DEFAULT_MODE;
 	const safeRange = ['all', '7day', '1month', '3month', '6month', '12month'].includes(range) ? range : DEFAULT_RANGE;
+	const safeTheme = theme || DEFAULT_THEME;
 
 	// Common headers
 	res.setHeader('Content-Type', 'image/svg+xml');
@@ -64,7 +65,7 @@ module.exports = async (req, res) => {
 		// Fetch Image
 		const imageBase64 = await fetchImageAsBase64(data.image);
 
-		const svg = generateSvg({ ...data, imageBase64 }, { width: safeWidth, bg: safeBg, mode: safeMode, theme });
+		const svg = generateSvg({ ...data, imageBase64 }, { width: safeWidth, bg: safeBg, mode: safeMode, theme: safeTheme });
 		res.send(svg);
 
 	} catch (error) {
