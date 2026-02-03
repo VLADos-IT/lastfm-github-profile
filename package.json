@@ -22,7 +22,7 @@
 		"axios": "^1.6.0",
 		"express": "^5.2.1",
 		"express-rate-limit": "^7.1.0",
-		"lru-cache": "^10.0.1"
+		"lru-cache": "^11.2.5"
 	},
 	"engines": {
 		"node": "20.x"
