@@ -1,4 +1,4 @@
-const { fetchLastFmData } = require('./lib/fetcher');
+const { fetchLastFmData } = require('./lib/lastfm');
 const { generateSvg } = require('./lib/svg');
 const { fetchImageAsBase64 } = require('./lib/utils');
 

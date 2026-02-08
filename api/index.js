@@ -1,37 +1,18 @@
-const { fetchLastFmData } = require('../lib/fetcher');
+const { fetchLastFmData } = require('../lib/lastfm');
 const { generateSvg } = require('../lib/svg');
 const { fetchImageAsBase64, isValidUsername } = require('../lib/utils');
 const errorCard = require('../lib/templates/error');
-
-const DEFAULT_WIDTH = 400;
-const DEFAULT_BG = '181818';
-const DEFAULT_MODE = 'smart';
-const DEFAULT_RANGE = 'all';
-const DEFAULT_THEME = 'default';
+const { validateParams, checkWhitelist } = require('../lib/validation');
 
 /**
  * Last.fm Obsession Readme API
  * @author VLADos-IT <https://github.com/VLADos-IT>
  */
 module.exports = async (req, res) => {
-	const {
-		user,
-		bg = DEFAULT_BG,
-		width = DEFAULT_WIDTH,
-		mode = DEFAULT_MODE,
-		range = DEFAULT_RANGE,
-		theme = DEFAULT_THEME
-	} = req.query;
-
-	const safeWidth = Math.max(100, Math.min(1000, parseInt(width) || DEFAULT_WIDTH));
-	const safeBg = (bg !== 'transparent' && bg !== 'none' && !/^[0-9a-fA-F]{3,6}$/.test(bg)) ? DEFAULT_BG : bg;
-	const safeMode = ['smart', 'obsession', 'top'].includes(mode) ? mode : DEFAULT_MODE;
-	const safeRange = ['all', '7day', '1month', '3month', '6month', '12month'].includes(range) ? range : DEFAULT_RANGE;
-	const safeTheme = theme || DEFAULT_THEME;
+	const { user, safeWidth, safeBg, safeMode, safeRange, safeTheme } = validateParams(req.query);
 
 	// Common headers
 	res.setHeader('Content-Type', 'image/svg+xml');
-	// Set filename
 	res.setHeader('Content-Disposition', 'inline; filename="lastfm-profile.svg"');
 
 	const sendError = (message, status) => {
@@ -48,12 +29,8 @@ module.exports = async (req, res) => {
 	}
 
 	// Whitelist
-	if (safeRange !== 'all') {
-		const whitelist = process.env.WHITELIST_USERS ? process.env.WHITELIST_USERS.split(',').map(u => u.trim().toLowerCase()) : null;
-
-		if (whitelist && !whitelist.includes(user.toLowerCase())) {
-			return sendError('Range feature restricted', 403);
-		}
+	if (!checkWhitelist(user, req.query.range, safeRange)) {
+		return sendError('Range feature restricted', 403);
 	}
 
 	try {
@@ -75,6 +52,9 @@ module.exports = async (req, res) => {
 		} else {
 			res.setHeader('Cache-Control', 'public, max-age=240, s-maxage=240, stale-while-revalidate=120');
 		}
+		if (safeMode === 'recent') {
+			res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=60, stale-while-revalidate=30');
+		}
 
 		// Fetch Image
 		const imageBase64 = await fetchImageAsBase64(data.image);
@@ -87,8 +67,11 @@ module.exports = async (req, res) => {
 		if (error.message === 'LASTFM_API_KEY_MISSING') {
 			return sendError('Range needs LASTFM API Key', 501);
 		}
+		if (error.message === 'RECENT_TRACKS_PRIVATE') {
+			return sendError('Recent tracks are private', 403);
+		}
 		if (error.response && error.response.status === 404) {
-			sendError(`No data for ${user}`);
+			sendError(`No data for ${user}`, 404);
 		} else {
 			sendError('Internal Server Error', 500);
 		}
