@@ -18,8 +18,8 @@ For detailed API documentation, please refer to [API.md](assets/API.md).
 | :-------- | :---------------------------------------------------------- | :-------- |
 | `user`    | Your Last.fm username (required)                            | -         |
 | `bg`      | Background color(e.g. ffffff), 'none' or `transparent`      | `181818`  |
-| `width`   | Width of the SVG in pixels                                  | `400`     |
-| `mode`    | Display mode: `smart` (default), `obsession`, `top`         | `smart`   |
+| `width`   | Width of the SVG in pixels (MIN = 120)                      | `400`     |
+| `mode`    | Display mode: `smart`, `obsession`, `top`, `recent`         | `smart`   |
 | `range`   | Date range: `all`, `7day`, `1month`, etc (Requires API Key) | `all`     |
 | `theme`   | Visual theme: `default`, `retro`                            | `default` |
 
@@ -29,7 +29,8 @@ For detailed API documentation, please refer to [API.md](assets/API.md).
 
 > [!WARNING]
 >
-> - **obsession**: Only shows Current Obsession. Displays an error if none is set.  
+> - **obsession**: Only shows Current Obsession. Displays an error if none is set.
+> - **recent**: Shows your most recent track (Listening History).
 > - **top**: Forces the display of "Top Track" label.
 
 ### Example
@@ -88,5 +89,6 @@ If you prefer to host it yourself.
 ## TODO
 
 - [x] Top track in range (LAST FM API REQUIRED)
+- [X] Recent track mode
 - [ ] Other designs
 - [ ] Configuration improvements

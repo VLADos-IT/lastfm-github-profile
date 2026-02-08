@@ -13,7 +13,7 @@ The API is available at `/api`. It returns an SVG image suitable for embedding i
 | `user`    | `string` | **Required** | The Last.fm username to fetch data for.                |
 | `bg`      | `string` | `181818`     | Background color(e.g. ffffff), 'none' or `transparent` |
 | `width`   | `number` | `400`        | Width of the generated SVG in pixels.                  |
-| `mode`    | `string` | `smart`      | Display mode. `smart`, `obsession`, `top`.             |
+| `mode`    | `string` | `smart`      | Display mode. `smart`, `obsession`, `top`, `recent`.   |
 | `range`   | `string` | `all`        | Period for Top Track. `all`, `7day`, `1month` etc.     |
 
 ## Modes
@@ -22,13 +22,18 @@ The API is available at `/api`. It returns an SVG image suitable for embedding i
 
 - **Behavior**: Checks for a current "Obsession" on the user's profile.
 - **Fallback**: If no obsession is found, it fetches the most recent track from the user's library/profile.
-- **Label**: Displays "LAST.FM OBSESSION" or "LAST.FM TOP TRACK" accordingly.
+- **Label**: Displays "LAST.FM OBSESSION" or "LAST.FM RECENT TRACK" accordingly.
 
 ### `obsession`
 
 - **Behavior**: Strictly fetches the current "Obsession".
 - **Error**: Returns an error card if no obsession is set.
 - **Label**: "LAST.FM OBSESSION".
+
+### `recent`
+
+- **Behavior**: Fetches the most recent track from listening history.
+- **Label**: "LAST.FM RECENT TRACK".
 
 ### `top`
 
