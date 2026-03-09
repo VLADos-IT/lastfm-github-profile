@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
 
 		if (!data) {
 			if (safeMode === 'obsession') {
-				return sendError(`No current obsession for ${user}`);
+				return sendError(`No current obsession found`, 404);
 			}
 			throw { response: { status: 404 } };
 		}
@@ -73,7 +73,7 @@ module.exports = async (req, res) => {
 			return sendError('Recent tracks are private', 403);
 		}
 		if (error.response && error.response.status === 404) {
-			sendError(`No data for ${user}`, 404);
+			sendError(`No data found`, 404);
 		} else {
 			sendError('Internal Server Error', 500);
 		}
