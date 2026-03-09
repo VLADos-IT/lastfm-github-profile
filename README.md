@@ -21,7 +21,7 @@ For detailed API documentation, please refer to [API.md](assets/API.md).
 | `width`   | Width of the SVG in pixels (MIN = 120)                      | `400`     |
 | `mode`    | Display mode: `smart`, `obsession`, `top`, `recent`         | `smart`   |
 | `range`   | Date range: `all`, `7day`, `1month`, etc (Requires API Key) | `all`     |
-| `theme`   | Visual theme: `default`, `retro`                            | `default` |
+| `theme`   | Visual theme: `default`, `retro`, `compact`                 | `default` |
 
 ### Modes
 

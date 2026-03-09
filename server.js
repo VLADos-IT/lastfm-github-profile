@@ -1,7 +1,17 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const handler = require('./api/index');
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Rate limiting: 60 requests per minute per IP
+const limiter = rateLimit({
+	windowMs: 60 * 1000,
+	max: 60,
+	standardHeaders: true,
+	legacyHeaders: false,
+});
+app.use('/api', limiter);
 
 app.get('/api', handler);
 

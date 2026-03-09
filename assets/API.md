@@ -15,6 +15,7 @@ The API is available at `/api`. It returns an SVG image suitable for embedding i
 | `width`   | `number` | `400`        | Width of the generated SVG in pixels.                  |
 | `mode`    | `string` | `smart`      | Display mode. `smart`, `obsession`, `top`, `recent`.   |
 | `range`   | `string` | `all`        | Period for Top Track. `all`, `7day`, `1month` etc.     |
+| `theme`   | `string` | `default`    | Visual theme. `default`, `retro`, `compact`.           |
 
 ## Modes
 

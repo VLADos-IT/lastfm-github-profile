@@ -1,0 +1,18 @@
+.header {
+	font: 700 10px 'Trebuchet MS', 'Segoe UI', Sans-Serif;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.track {
+	font: 700 15px 'Trebuchet MS', 'Segoe UI', Sans-Serif;
+}
+
+.artist {
+	font: 400 13px 'Trebuchet MS', 'Segoe UI', Sans-Serif;
+}
+
+.error-text {
+	font: 400 14px 'Trebuchet MS', 'Segoe UI', Sans-Serif;
+	fill: #ffffff;
+}
