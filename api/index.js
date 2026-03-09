@@ -14,6 +14,8 @@ module.exports = async (req, res) => {
 	// Common headers
 	res.setHeader('Content-Type', 'image/svg+xml');
 	res.setHeader('Content-Disposition', 'inline; filename="lastfm-profile.svg"');
+	res.setHeader('Content-Security-Policy', "default-src 'none'; img-src data: https:; style-src 'unsafe-inline'; sandbox");
+	res.setHeader('X-Content-Type-Options', 'nosniff');
 
 	const sendError = (message, status) => {
 		if (status) res.status(status);
