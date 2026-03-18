@@ -39,6 +39,9 @@ module.exports = async (req, res) => {
 		const data = await fetchLastFmData(user, safeMode, safeRange);
 
 		if (!data) {
+			if (safeMode === 'now') {
+				return sendError('Not playing', 200);
+			}
 			if (safeMode === 'obsession') {
 				return sendError(`No current obsession found`, 404);
 			}
@@ -56,6 +59,9 @@ module.exports = async (req, res) => {
 		}
 		if (safeMode === 'recent') {
 			res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=60, stale-while-revalidate=30');
+		}
+		if (safeMode === 'now') {
+			res.setHeader('Cache-Control', 'public, max-age=30, s-maxage=30, stale-while-revalidate=15');
 		}
 
 		// Fetch Image

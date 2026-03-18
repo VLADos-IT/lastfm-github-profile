@@ -19,7 +19,7 @@ For detailed API documentation, please refer to [API.md](assets/API.md).
 | `user`    | Your Last.fm username (required)                            | -         |
 | `bg`      | Background color(e.g. ffffff), 'none' or `transparent`      | `181818`  |
 | `width`   | Width of the SVG in pixels (MIN = 120)                      | `400`     |
-| `mode`    | Display mode: `smart`, `obsession`, `top`, `recent`         | `smart`   |
+| `mode`    | Display mode: `smart`, `obsession`, `top`, `recent`, `now`  | `smart`   |
 | `range`   | Date range: `all`, `7day`, `1month`, etc (Requires API Key) | `all`     |
 | `theme`   | Visual theme: `default`, `retro`, `compact`                 | `default` |
 
@@ -32,6 +32,7 @@ For detailed API documentation, please refer to [API.md](assets/API.md).
 > - **obsession**: Only shows Current Obsession. Displays an error if none is set.
 > - **recent**: Shows your most recent track (Listening History).
 > - **top**: Forces the display of "Top Track" label.
+> - **now**: Shows now playing track.
 
 ### Example
 

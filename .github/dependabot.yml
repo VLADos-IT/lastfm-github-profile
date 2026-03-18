@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
@@ -11,7 +11,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
     groups:
       actions:
         patterns:
@@ -19,3 +19,4 @@ updates:
     labels:
       - "dependencies"
       - "automated"
+      - "dependabot"
